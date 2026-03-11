@@ -1,26 +1,58 @@
 @import "tailwindcss";
 
+/* Step 1: Raw CSS variables — these CAN be overridden at runtime */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-primary-dark-black: rgb(43, 40, 40);
+  --color-primary-light-black: rgb(68, 68, 68);
+  --color-primary-text: rgba(10, 10, 10, 0.65);
+
+  --color-secondary-yellow: rgb(255, 204, 22);
+  --color-secondary-white: rgb(255, 255, 255);
+
+  --color-success: hsl(142 71% 45%);
+  --color-error: hsl(0 84% 60%);
+  --color-warning: hsl(43 96% 56%);
+  
+  --color-background: rgb(255, 255, 255);
+  --color-foreground: rgb(43, 40, 40);
+  --color-border: rgb(68, 68, 68);
 }
 
+/* Step 2: Dark mode swaps the raw variables */
+.dark {
+  --color-background: rgb(43, 40, 40);
+  --color-foreground: rgb(255, 255, 255);
+  --color-primary-text: rgba(255, 255, 255, 0.85);
+  --color-primary-dark-black: rgb(68, 68, 68);
+  --color-primary-light-black: rgb(43, 40, 40);
+  --color-secondary-white: rgba(255, 255, 255, 0.95);
+}
+
+/* Step 3: @theme inline = "Tailwind, point your utilities to these vars, don't hardcode them" */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary-dark-black: var(--color-primary-dark-black);
+  --color-primary-light-black: var(--color-primary-light-black);
+  --color-primary-text: var(--color-primary-text);
+  --color-secondary-yellow: var(--color-secondary-yellow);
+  --color-secondary-white: var(--color-secondary-white);
+  --color-success: var(--color-success);
+  --color-error: var(--color-error);
+  --color-warning: var(--color-warning);
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-border: var(--color-border);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer components {
+  .btn-primary {
+    @apply bg-secondary-yellow text-primary-dark-black
+           hover:bg-secondary-yellow/90 border border-primary-light-black
+           font-medium rounded-md px-4 py-2 transition-all;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  .btn-secondary {
+    @apply bg-primary-light-black text-secondary-white
+           hover:bg-primary-dark-black border border-primary-light-black
+           font-medium rounded-md px-4 py-2 transition-all;
+  }
 }
