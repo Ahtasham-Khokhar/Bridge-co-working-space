@@ -31,7 +31,7 @@ export async function middleware(request: NextRequest) {
 
       const user = await verifyJWT(token);
       if (!user || !allowedRoles.includes(user.selectedRole)) {
-        return NextResponse.redirect(new URL('/unauthorized', request.url));
+        return NextResponse.redirect(new URL('/auth/unauthorized', request.url));
       }
       
       return NextResponse.next();

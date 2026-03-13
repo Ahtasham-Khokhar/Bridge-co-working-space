@@ -1,9 +1,16 @@
-import React from 'react'
+"use client";
+import { useSuperAdminConsumer } from '@/context/super-admin-context';
 
-const page = () => {
+const Page = () => {
+  const {name, setName} = useSuperAdminConsumer();
   return (
-    <div>Super Admin Dashboard</div>
+    <>
+    <h1 className="flex justify-center items-center text-secondary-yellow text-4xl font-bold mt-40">
+        Super Admin Dashboard {name}
+      </h1>
+      </>
+
   )
 }
 
-export default page
+export default Page;
