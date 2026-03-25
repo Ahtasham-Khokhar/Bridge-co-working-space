@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
       maxAge: 24 * 60 * 60
     });
 
-    return response;
+    return response; 
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Login failed';
     return NextResponse.json(

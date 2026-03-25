@@ -101,7 +101,7 @@ export default function LoginPage() {
 
             <button
               type="button"
-              onClick={() => router.push('/select-role')}
+              onClick={() => router.push('/auth/login-type')}
               className='text-sm text-center hover:underline font-medium'
             >
               ← Change Role

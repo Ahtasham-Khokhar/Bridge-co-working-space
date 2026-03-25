@@ -1,8 +1,7 @@
+// middleware.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { verifyJWT } from '@/lib/auth';
-import dbconnect from '@/lib/dbconnect';
-export const runtime = 'nodejs';
+import { jwtVerify } from 'jose'; // ✅ edge compatible JWT library
 
 const routePermissions: Record<string, string[]> = {
   '/super-admin': ['Super Admin'],
@@ -12,29 +11,40 @@ const routePermissions: Record<string, string[]> = {
 };
 
 export async function middleware(request: NextRequest) {
-  await dbconnect(); // ✅ YOUR CONNECTION
-
   const { pathname } = request.nextUrl;
   const token = request.cookies.get('authToken')?.value;
 
-  // Public routes (your selection + login)
-  if (pathname === '/select-role' || pathname === '/login') {
+  // Public routes
+  if (pathname === '/auth/login-type' || pathname === '/auth/login') {
     return NextResponse.next();
   }
 
-  // Protected dashboard routes
+  // Protected routes
   for (const [route, allowedRoles] of Object.entries(routePermissions)) {
     if (pathname === route || pathname.startsWith(route + '/')) {
+
+      // No token → redirect to login
       if (!token) {
-        return NextResponse.redirect(new URL('/select-role', request.url));
+        return NextResponse.redirect(new URL('/auth/login-type', request.url));
       }
 
-      const user = await verifyJWT(token);
-      if (!user || !allowedRoles.includes(user.selectedRole)) {
-        return NextResponse.redirect(new URL('/auth/unauthorized', request.url));
+      try {
+        // ✅ jose works on Edge Runtime, jsonwebtoken does NOT
+        const secret = new TextEncoder().encode(process.env.JWT_Secret_key!);
+        const { payload } = await jwtVerify(token, secret);
+
+        const userRole = payload.selectedRole as string;
+
+        if (!allowedRoles.includes(userRole)) {
+          return NextResponse.redirect(new URL('/auth/unauthorized', request.url));
+        }
+
+        return NextResponse.next();
+
+      } catch {
+        // Token invalid or expired
+        return NextResponse.redirect(new URL('/auth/login-type', request.url));
       }
-      
-      return NextResponse.next();
     }
   }
 
