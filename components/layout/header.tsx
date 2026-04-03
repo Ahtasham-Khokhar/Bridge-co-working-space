@@ -1,22 +1,73 @@
-import React from 'react'
+"use client";
+import Image from "next/image";
+import { useSidebar } from "@/context/sidebar-context";
+import SuperadminSidebar from "../sidebar/superadmin";
 
-const Header = () => {
+export default function Header() {
+  const { isOpen, toggle } = useSidebar();
+
   return (
     <>
-    <div className='flex justify-between bg-secondary-white p-4'>
-        <div>
+      <SuperadminSidebar />
 
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-panel-left-open-icon lucide-panel-left-open"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-panel-right-open-icon lucide-panel-right-open"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/><path d="m10 15-3-3 3-3"/></svg>
+      {/* Push content right when sidebar is open */}
+      <div className={`transition-all duration-300 ${isOpen ? "ml-64" : "ml-0"}`}>
+        <div className="flex justify-between items-center bg-white border-b border-gray-100 px-4 py-3 shadow-sm">
+
+          {/* Toggle Button */}
+          <button
+            onClick={toggle}
+            className="p-2 rounded-xl hover:bg-yellow-50 hover:text-yellow-500 transition-colors"
+            title={isOpen ? "Close sidebar" : "Open sidebar"}
+          >
+            {isOpen ? (
+              // Panel left close
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="18" height="18" x="3" y="3" rx="2" />
+                <path d="M9 3v18" /><path d="m16 15-3-3 3-3" />
+              </svg>
+            ) : (
+              // Panel left open
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="18" height="18" x="3" y="3" rx="2" />
+                <path d="M9 3v18" /><path d="m14 9 3 3-3 3" />
+              </svg>
+            )}
+          </button>
+
+          {/* Right section */}
+          <div className="flex gap-3 items-center">
+            {/* Notification */}
+            <button className="relative p-2 rounded-xl hover:bg-yellow-50 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M10.268 21a2 2 0 0 0 3.464 0" />
+                <path d="M20.002 14.464a9 9 0 0 0 .738.863A1 1 0 0 1 20 17H4a1 1 0 0 1-.74-1.673C4.59 13.956 6 12.499 6 8a6 6 0 0 1 12 0c0 1.33.21 2.558.604 3.7" />
+              </svg>
+              {/* Notification dot */}
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-yellow-400 rounded-full" />
+            </button>
+
+            {/* User */}
+            <div className="flex items-center gap-2 pl-2 border-l border-gray-100">
+              <Image
+                src="/auth/usericon.webp"
+                alt="User"
+                width={36}
+                height={36}
+                className="rounded-full ring-2 ring-yellow-400"
+              />
+              <div className="flex flex-col leading-tight">
+                <span className="text-sm font-semibold text-gray-800">Ahtasham Ashiq</span>
+                <span className="text-xs text-gray-400">Super Admin</span>
+              </div>
+            </div>
+          </div>
+
         </div>
-        <div className='flex gap-4 '>
-            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-bell-plus-icon lucide-bell-plus"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M15 8h6"/><path d="M18 5v6"/><path d="M20.002 14.464a9 9 0 0 0 .738.863A1 1 0 0 1 20 17H4a1 1 0 0 1-.74-1.673C4.59 13.956 6 12.499 6 8a6 6 0 0 1 8.75-5.332"/></svg></p>
-            <p><img src="/usericon" alt="User Icon" srcSet="" /></p>
-            <p>name crousal</p>
-        </div>
-    </div>
+      </div>
     </>
-  )
+  );
 }
-
-export default Header

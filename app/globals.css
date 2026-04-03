@@ -5,9 +5,13 @@
   --color-primary-dark-black: rgb(43, 40, 40);
   --color-primary-light-black: rgb(68, 68, 68);
   --color-primary-text: rgba(10, 10, 10, 0.65);
+  
 
   --color-secondary-yellow: rgb(255, 204, 22);
   --color-secondary-white: rgb(255, 255, 255);
+  --color-secondary-blue: #0D2B4E;
+
+
 
   --color-success: hsl(142 71% 45%);
   --color-error: hsl(0 84% 60%);
@@ -35,6 +39,7 @@
   --color-primary-text: var(--color-primary-text);
   --color-secondary-yellow: var(--color-secondary-yellow);
   --color-secondary-white: var(--color-secondary-white);
+  --color-secondary-blue: var(--color-secondary-blue);
   --color-success: var(--color-success);
   --color-error: var(--color-error);
   --color-warning: var(--color-warning);
