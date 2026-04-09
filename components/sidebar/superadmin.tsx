@@ -77,7 +77,7 @@ const menuItems = [
 ];
 
 export default function SuperadminSidebar() {
-  const { isOpen } = useSidebar();
+  const { isOpen, toggle } = useSidebar();
   const pathname = usePathname();
   const [openMenus, setOpenMenus] = useState<string[]>(["Seat Booking"]);
 
@@ -88,103 +88,121 @@ export default function SuperadminSidebar() {
   };
 
   return (
-    <aside
-      className={`fixed top-0 left-0 h-screen bg-secondary-white text-primary-light-black z-40 flex flex-col transition-all duration-300 ease-in-out ${
-        isOpen ? "w-64" : "w-0 overflow-hidden"
-      }`}
-    >
-      {/* Logo */}
-      <div className="flex items-center gap-3 px-6 py-5 border-b border-white/10">
-        <div className="bg-secondary-yellow rounded-lg w-8 h-8 flex items-center justify-center flex-shrink-0">
-          <span className="text-primary-light-black font-black text-sm">B</span>
+    <>
+      {/* Mobile backdrop overlay — only visible on small screens when sidebar is open */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-30 lg:hidden"
+          onClick={toggle}
+        />
+      )}
+
+      <aside
+        className={`fixed top-0 left-0 h-screen bg-secondary-white text-primary-light-black z-40 flex flex-col transition-all duration-300 ease-in-out ${
+          isOpen ? "w-64" : "w-0 overflow-hidden"
+        }`}
+      >
+        {/* Logo */}
+        <div className="flex items-center gap-3 px-6 py-5 border-b border-white/10">
+          <div className="bg-secondary-yellow rounded-lg w-8 h-8 flex items-center justify-center flex-shrink-0">
+            <span className="text-primary-light-black font-black text-sm">B</span>
+          </div>
+          <span className="font-bold text-lg tracking-wide whitespace-nowrap">Bridge</span>
         </div>
-        <span className="font-bold text-lg tracking-wide whitespace-nowrap">Bridge</span>
-      </div>
 
-      {/* Nav */}
-      <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
-        {menuItems.map(item => {
-          const isActive = item.href
-            ? pathname === item.href
-            : item.children?.some(c => pathname.startsWith(c.href));
-          const isExpanded = openMenus.includes(item.label);
+        {/* Nav */}
+        <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+          {menuItems.map(item => {
+            const isActive = item.href
+              ? pathname === item.href
+              : item.children?.some(c => pathname.startsWith(c.href));
+            const isExpanded = openMenus.includes(item.label);
 
-          if (item.children) {
-            return (
-              <div key={item.label}>
-                {/* Parent */}
-                <button
-                  onClick={() => toggleMenu(item.label)}
-                  className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all text-sm font-medium ${
-                    isActive
-                      ? "bg-secondary-blue text-primary-light-black"
-                      : "text-primary-dark-black hover:bg-white/10 hover:text-secondary-blue"
-                  }`}
-                >
-                  <span className="flex items-center gap-3">
-                    {item.icon}
-                    <span className="whitespace-nowrap">{item.label}</span>
-                  </span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                    className={`transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+            if (item.children) {
+              return (
+                <div key={item.label}>
+                  {/* Parent */}
+                  <button
+                    onClick={() => toggleMenu(item.label)}
+                    className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all text-sm font-medium ${
+                      isActive
+                        ? "bg-secondary-blue text-primary-light-black"
+                        : "text-primary-dark-black hover:bg-white/10 hover:text-secondary-blue"
+                    }`}
                   >
-                    <path d="m6 9 6 6 6-6" />
-                  </svg>
-                </button>
-
-                {/* Children */}
-                <div className={`overflow-hidden transition-all duration-200 ${isExpanded ? "max-h-60 mt-1" : "max-h-0"}`}>
-                  <div className="ml-4 pl-3 border-l border-white/10 space-y-0.5">
-                    {item.children.map(child => (
-                      <Link
-                        key={child.href}
-                        href={child.href}
-                        className={`block px-3 py-2 rounded-xl text-sm transition-all whitespace-nowrap ${
-                        pathname === child.href
-                            ? "bg-secondary-blue text-primary-light-black font-semibold"
-                            : "text-primary-dark-black hover:bg-white/10 hover:text-secondary-blue"
-                        }`}
+                    <span className="flex items-center gap-3">
+                      {item.icon}
+                      <span className="whitespace-nowrap">{item.label}</span>
+                    </span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                      className={`transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
                     >
-                        {child.label}
-                      </Link>
-                    ))}
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </button>
+
+                  {/* Children */}
+                  <div className={`overflow-hidden transition-all duration-200 ${isExpanded ? "max-h-60 mt-1" : "max-h-0"}`}>
+                    <div className="ml-4 pl-3 border-l border-white/10 space-y-0.5">
+                      {item.children.map(child => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          onClick={() => {
+                            // Close sidebar on mobile after navigation
+                            if (window.innerWidth < 1024) toggle();
+                          }}
+                          className={`block px-3 py-2 rounded-xl text-sm transition-all whitespace-nowrap ${
+                          pathname === child.href
+                              ? "bg-secondary-blue text-primary-light-black font-semibold"
+                              : "text-primary-dark-black hover:bg-white/10 hover:text-secondary-blue"
+                          }`}
+                      >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
+              );
+            }
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href!}
+                onClick={() => {
+                  // Close sidebar on mobile after navigation
+                  if (window.innerWidth < 1024) toggle();
+                }}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                  isActive
+                    ? "bg-secondary-blue text-primary-light-black"
+                    : "text-primary-light-black/70 hover:bg-white/10 hover:text-secondary-blue"
+                }`}
+              >
+                {item.icon}
+                <span className="whitespace-nowrap">{item.label}</span>
+              </Link>
             );
-          }
+          })}
+        </nav>
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href!}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                isActive
-                  ? "bg-secondary-blue text-primary-light-black"
-                  : "text-primary-light-black/70 hover:bg-white/10 hover:text-secondary-blue"
-              }`}
-            >
-              {item.icon}
-              <span className="whitespace-nowrap">{item.label}</span>
-            </Link>
-          );
-        })}
-      </nav>
-
-      {/* Bottom logout */}
-      <div className="p-3 border-t border-white/10">
-        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-primary-dark-blackhover:bg-red-500/20 hover:text-error transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-            <polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" />
-          </svg>
-          <span className="whitespace-nowrap">Logout</span>
-        </button>
-      </div>
-    </aside>
+        {/* Bottom logout */}
+        <div className="p-3 border-t border-white/10">
+          <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-primary-dark-black hover:bg-red-500/20 hover:text-error transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            <span className="whitespace-nowrap">Logout</span>
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }

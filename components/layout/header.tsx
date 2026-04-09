@@ -10,9 +10,9 @@ export default function Header() {
     <>
       <SuperadminSidebar />
 
-      {/* Push content right when sidebar is open */}
-      <div className={`transition-all duration-300 ${isOpen ? "ml-64" : "ml-0"}`}>
-        <div className="flex justify-between items-center bg-white border-b border-gray-100 px-4 py-3 shadow-sm">
+      {/* Push content right when sidebar is open — only on lg+ screens where sidebar pushes */}
+      <div className={`transition-all duration-300 ${isOpen ? "lg:ml-64" : "ml-0"}`}>
+        <div className="flex justify-between items-center bg-white border-b border-gray-100 px-3 sm:px-4 py-2 sm:py-3 shadow-sm">
 
           {/* Toggle Button */}
           <button
@@ -38,7 +38,7 @@ export default function Header() {
           </button>
 
           {/* Right section */}
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-2 sm:gap-3 items-center">
             {/* Notification */}
             <button className="relative p-2 rounded-xl hover:bg-yellow-50 transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
@@ -57,9 +57,9 @@ export default function Header() {
                 alt="User"
                 width={36}
                 height={36}
-                className="rounded-full ring-2 ring-yellow-400"
+                className="rounded-full ring-2 ring-yellow-400 w-8 h-8 sm:w-9 sm:h-9"
               />
-              <div className="flex flex-col leading-tight">
+              <div className="hidden sm:flex flex-col leading-tight">
                 <span className="text-sm font-semibold text-gray-800">Ahtasham Ashiq</span>
                 <span className="text-xs text-gray-400">Super Admin</span>
               </div>

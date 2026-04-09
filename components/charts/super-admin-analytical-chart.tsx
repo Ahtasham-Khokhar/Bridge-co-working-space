@@ -105,19 +105,19 @@ const options = {
 
 export default function AnalyticsChart() {
     return (
-        <div className="bg-secondary-white rounded-2xl shadow-md p-6">
+        <div className="bg-secondary-white rounded-2xl shadow-md p-4 sm:p-6">
             {/* Header */}
-            <div className="mb-4">
-                <p className="text-lg font-semibold text-primary-dark-black">
+            <div className="mb-3 sm:mb-4">
+                <p className="text-base sm:text-lg font-semibold text-primary-dark-black">
                     Analytics
                 </p>
-                <p className="text-sm text-primary-text">
+                <p className="text-xs sm:text-sm text-primary-text">
                     Aug – Dec revenue overview
                 </p>
             </div>
 
             {/* Custom Legend */}
-            <div className="flex gap-6 mb-4 text-sm text-primary-text">
+            <div className="flex flex-wrap gap-4 sm:gap-6 mb-3 sm:mb-4 text-xs sm:text-sm text-primary-text">
                 <span className="flex items-center gap-2">
                     <span
                         className="w-3 h-3 rounded-sm inline-block"
@@ -135,7 +135,7 @@ export default function AnalyticsChart() {
             </div>
 
             {/* Chart */}
-            <div className="relative h-[150px]">
+            <div className="relative h-[120px] sm:h-[150px] md:h-[180px]">
                 <Chart type="bar" data={data} options={options} />
             </div>
         </div>

@@ -10,7 +10,7 @@ export default function SuperAdminLayout({ children }: { children: React.ReactNo
       <SuperAdminProvider>
       <Header />
       <MainWrapper>
-        <main className={`p-6 transition-all duration-300`}>
+        <main className={`p-3 sm:p-4 lg:p-6 transition-all duration-300`}>
           {children}
         </main>
       </MainWrapper>
