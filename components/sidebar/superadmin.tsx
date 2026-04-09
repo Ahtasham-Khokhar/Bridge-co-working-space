@@ -103,11 +103,8 @@ export default function SuperadminSidebar() {
         }`}
       >
         {/* Logo */}
-        <div className="flex items-center gap-3 px-6 py-5 border-b border-white/10">
-          <div className="bg-secondary-yellow rounded-lg w-8 h-8 flex items-center justify-center flex-shrink-0">
-            <span className="text-primary-light-black font-black text-sm">B</span>
-          </div>
-          <span className="font-bold text-lg tracking-wide whitespace-nowrap">Bridge</span>
+        <div className="mt-8 ml-4 mb-4">
+          <img src="./BridgeLogo.png" alt="" srcSet="" />
         </div>
 
         {/* Nav */}
@@ -126,7 +123,7 @@ export default function SuperadminSidebar() {
                     onClick={() => toggleMenu(item.label)}
                     className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all text-sm font-medium ${
                       isActive
-                        ? "bg-secondary-blue text-primary-light-black"
+                        ? "bg-secondary-blue text-primary-white"
                         : "text-primary-dark-black hover:bg-white/10 hover:text-secondary-blue"
                     }`}
                   >
