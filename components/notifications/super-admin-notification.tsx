@@ -7,46 +7,40 @@ const notifications = [
     title: "Booking Confirmation",
     subtitle: "Your booking for Desk #12 at Downtown Branch is confirmed for Jan 10, 2025, 9:00 AM",
     time: "2 min ago",
-    isNew: true,
-    type: "default",
+    icon:"./svg/notificationIcon.svg"
   },
   {
     id: 2,
     title: "Upcoming Booking Reminder",
     subtitle: "Reminder: You have an upcoming booking for Meeting Room",
     time: "10 min ago",
-    isNew: true,
-    type: "default",
+    icon:"./svg/notificationIcon.svg"
   },
   {
     id: 3,
     title: "New Amenities Added",
     subtitle: `New! "High-speed internet and ergonomic chairs" are now available at Branch 1`,
     time: "2 days ago",
-    isNew: false,
-    type: "default",
+    icon:"./svg/notificationIcon.svg"
   },
   {
     id: 4,
     title: "Payment Reminder",
     subtitle: "Payment overdue! Please complete payment for your monthly booking",
     time: "3 days ago",
-    isNew: false,
-    type: "danger",
+    icon:"./svg/notificationIcon.svg"
   },
   {
     id: 5,
     title: "Payment Reminder",
     subtitle: "Payment overdue! Please complete payment for your monthly booking",
     time: "",
-    isNew: false,
-    type: "danger",
+    icon:"./svg/notificationIcon.svg"
   },
 ];
 
 export default function NotificationFeed() {
   const [expanded, setExpanded] = useState(false);
-  const newCount = notifications.filter((n) => n.isNew).length;
   const visible = expanded ? notifications : notifications.slice(0, 2);
 
   return (
@@ -55,16 +49,10 @@ export default function NotificationFeed() {
       {/* Header */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-border">
         <div className="flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-            className="text-secondary-yellow">
-            <path d="M10.268 21a2 2 0 0 0 3.464 0"/>
-            <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326z"/>
-          </svg>
-          <span className="text-base font-semibold text-foreground">Notifications</span>
+          <span className="text-base text-[22px] text-primary-dark-black">Notifications</span>
         </div>
-        <span className="bg-secondary-yellow text-primary-dark-black text-xs font-semibold px-2.5 py-1 rounded-full">
-          {newCount} new
+        <span className="bg-secondary-yellow text-xs  p-3 rounded-xl">
+        <img className="w-6 h-6" src="./svg/notification.svg" alt="Image don't Load" />
         </span>
       </div>
 
@@ -73,21 +61,16 @@ export default function NotificationFeed() {
         {visible.map((n) => (
           <div
             key={n.id}
-            className={`flex items-start gap-3 px-5 py-4 hover:bg-background transition-colors cursor-pointer ${
-              n.isNew ? "bg-secondary-yellow/5" : ""
-            }`}
+            className={`flex items-start gap-3 px-5 py-4 hover:bg-secondary-yellow transition-colors cursor-pointer`}
           >
             {/* Dot */}
-            <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${
-              n.isNew ? "bg-secondary-yellow" : "bg-border"
-            }`} />
+            <div className={``}/>
 
             {/* Content */}
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between gap-3">
-                <p className={`text-sm font-semibold leading-snug ${
-                  n.type === "danger" ? "text-error" : "text-foreground"
-                }`}>
+                <img src={n.icon} className="" alt="Image don't Load" />
+                <p className={`text-sm font-semibold leading-snug text-foreground`}>
                   {n.title}
                 </p>
                 {n.time && (
