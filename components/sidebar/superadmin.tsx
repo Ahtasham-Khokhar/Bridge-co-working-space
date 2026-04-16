@@ -27,7 +27,7 @@ const menuItems = [
       </svg>
     ),
     children: [
-      { label: "Floor Plan",      href: "./super-admin/features/floor-plan" },
+      { label: "Floor Plan",      href: "/super-admin/features/floor-plan" },
       { label: "Available Seats", href: "/super-admin/seat-booking/available" },
       { label: "Reserve a Seat",  href: "/super-admin/seat-booking/reserve" },
       { label: "Seat Card",        href: "/super-admin/seat-booking/map" },
@@ -198,7 +198,7 @@ export default function SuperadminSidebar() {
       >
         {/* Logo */}
         <div className="mt-8 ml-4 mb-4 flex-shrink-0">
-          <img src="./BridgeLogo.png" alt="Bridge Logo" />
+          <img src="/BridgeLogo.png" alt="Bridge Logo" />
         </div>
 
         {/* Nav */}
@@ -231,7 +231,7 @@ export default function SuperadminSidebar() {
                       </span>
                     </span>
                     {/* ✅ dropdown arrow 20x20 */}
-                    <img src="./svg/dropdown.svg" alt="dropdown" className={`flex-shrink-0 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`} />
+                    <img src="/svg/dropdown.svg" alt="dropdown" className={`flex-shrink-0 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`} />
                   </button>
 
                   {/* Children */}

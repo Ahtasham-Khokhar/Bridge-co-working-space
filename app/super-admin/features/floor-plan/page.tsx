@@ -1,8 +1,7 @@
 "use client"
 import { useState } from "react";
 import { ChevronRight, ChevronDown, Armchair, Users, Building2 } from "lucide-react";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-
+import { PieChart, Pie,Cell, ResponsiveContainer } from "recharts";
 /* ─────────────────────────────────────────────
  * FloorPlanHeader
  * Top header bar with "Floor Plan" title and a "Next" navigation button.
@@ -45,14 +44,14 @@ const ActionButtons = ({
   ];
 
   return (
-    <div className="flex flex-wrap gap-2 px-4 md:gap-3 md:px-6">
+    <div className="flex flex-wrap  gap-2 px-4 md:gap-3 md:px-6">
       {buttons.map((button) => {
         const isActive = activeButton === button.id;
         return (
           <button
             key={button.id}
             onClick={() => onButtonClick?.(button.id)}
-            className={`rounded-md border px-3 py-2 text-xs font-medium transition-all md:px-4 md:text-sm ${
+            className={`rounded-md flex flex-1 items-center justify-center border bg-secondary-yellow px-3 py-2 text-xs font-medium transition-all md:px-4 md:text-sm ${
               isActive
                 ? "bg-primary text-primary-foreground border-primary"
                 : "bg-card text-bridge-text border-bridge-light/20 hover:border-primary/50"
@@ -71,6 +70,7 @@ const ActionButtons = ({
  * Displays Available Seats, Occupied Seats, and Floor selector cards.
  * Each card shows a label, count, and a themed icon.
  * ───────────────────────────────────────────── */
+
 const StatsCards = ({
   availableSeats = 60,
   occupiedSeats = 45,
@@ -80,8 +80,11 @@ const StatsCards = ({
   availableSeats?: number;
   occupiedSeats?: number;
   selectedFloor?: string;
-  onFloorChange?: () => void;
+  onFloorChange?: (floor: string) => void; // Updated to pass the floor name
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const floors = ["Floor 1", "Floor 2", "Floor 3"];
+
   return (
     <div className="flex flex-wrap gap-3 md:gap-4">
       {/* Available Seats Card */}
@@ -90,8 +93,8 @@ const StatsCards = ({
           <p className="text-xs text-bridge-text md:text-sm">Available Seats</p>
           <p className="text-2xl font-bold text-foreground md:text-3xl">{availableSeats}</p>
         </div>
-        <div className="ml-auto rounded-md bg-bridge-blue/10 p-2">
-          <Armchair className="h-5 w-5 text-bridge-blue md:h-6 md:w-6" />
+        <div className="ml-auto rounded-md p-2">
+          <img src="/svg/availableSeat.svg" alt="Available Seat SVG" />
         </div>
       </div>
 
@@ -102,27 +105,44 @@ const StatsCards = ({
           <p className="text-2xl font-bold text-foreground md:text-3xl">{occupiedSeats}</p>
         </div>
         <div className="ml-auto rounded-md bg-success/10 p-2">
-          <Users className="h-5 w-5 text-success md:h-6 md:w-6" />
+          <img src="/svg/occupiedSeat.svg" alt="Occupied Seat SVG" />
         </div>
       </div>
 
-      {/* Floor Selector Card */}
-      <button
-        onClick={onFloorChange}
-        className="flex min-w-[120px] flex-1 items-center gap-3 rounded-lg border border-bridge-light/10 bg-card p-3 shadow-sm transition-colors hover:border-primary/30 md:p-4"
-      >
-        <div className="text-left">
-          <p className="text-xs text-bridge-text md:text-sm">{selectedFloor}</p>
-          <ChevronDown className="mt-1 h-4 w-4 text-bridge-text" />
-        </div>
-        <div className="ml-auto rounded-md bg-primary/10 p-2">
-          <Building2 className="h-5 w-5 text-primary md:h-6 md:w-6" />
-        </div>
-      </button>
+      {/* Floor Selector Card - Keeping your exact structure */}
+      <div className="relative"> 
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="rounded-lg border md:p-4" // Your original button class
+        >
+          <div className=""> {/* Your original div */}
+            <img src="/svg/selectFloor.svg" alt="Floor Plan SVG" className="" />
+            <p className="text-xs text-bridge-text md:text-sm">{selectedFloor}</p>
+            <ChevronDown className="mt-1 h-4 w-4 text-primary-dark-black" />
+          </div>
+        </button>
+
+        {/* Dropdown Menu - Added to the bottom of your button */}
+        {isOpen && (
+          <div className="absolute left-0 top-full z-50 mt-1 w-full min-w-[120px] rounded-lg border bg-card shadow-md">
+            {floors.map((floor) => (
+              <button
+                key={floor}
+                onClick={() => {
+                  onFloorChange?.(floor);
+                  setIsOpen(false);
+                }}
+                className="block w-full px-4 py-2 text-left text-xs text-bridge-text hover:bg-bridge-light/5 md:text-sm"
+              >
+                {floor}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
-
 /* ─────────────────────────────────────────────
  * SeatDonutChart
  * Donut chart displaying total seat distribution breakdown.
@@ -220,8 +240,10 @@ const SeatDonutChart = ({
  * ───────────────────────────────────────────── */
 const FloorPlanPlaceholder = () => {
   return (
-    <div className="mx-4 flex min-h-[300px] items-center justify-center rounded-lg border-2 border-dashed border-bridge-light/20 bg-card md:mx-6 md:min-h-[400px]">
-      <p className="text-sm text-bridge-text">Floor Plan SVG will be rendered here</p>
+    <div className="min-h-[300px]rounded-lg md:min-h-[400px]">
+      <img src="/svg/floorplan.svg"
+        alt="Floor Plan"
+        className="h-full w-full object-contain" />
     </div>
   );
 };
