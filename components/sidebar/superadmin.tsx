@@ -27,10 +27,10 @@ const menuItems = [
       </svg>
     ),
     children: [
-      { label: "Floor Plan",      href: "/super-admin/seat-booking/floor-plan" },
+      { label: "Floor Plan",      href: "./super-admin/features/floor-plan" },
       { label: "Available Seats", href: "/super-admin/seat-booking/available" },
       { label: "Reserve a Seat",  href: "/super-admin/seat-booking/reserve" },
-      { label: "Seat Map",        href: "/super-admin/seat-booking/map" },
+      { label: "Seat Card",        href: "/super-admin/seat-booking/map" },
     ],
   },
   {
@@ -172,7 +172,7 @@ const menuItems = [
 export default function SuperadminSidebar() {
   const { isOpen, toggle } = useSidebar();
   const pathname = usePathname();
-  const [openMenus, setOpenMenus] = useState<string[]>(["Seat Booking"]);
+  const [openMenus, setOpenMenus] = useState<string[]>([""]);
 
   const toggleMenu = (label: string) => {
     setOpenMenus(prev =>

@@ -28,23 +28,14 @@ const Page = () => {
         </div>
       )}
 
-      <h1 className="text-center text-primary-dark_black lg:text-3xl md:text-2xl sm:text-xl font-bold">
-        Welcome to Bridge
-      </h1>
+      <div className="">
+         <h1 className="text-primary-dark-black lg:text-[34px] md:text-[28px] sm:text-[24px]">Welcome to Bridge</h1>
+        <img className="text-primary-dark-black" src="/svg/welcomeToBridge.svg" alt="Image does not Load" />
+      </div>
 
-      <Image
-        src="/auth/yellowline.svg"
-        alt="Yellow Line"
-        width={140}
-        height={10}
-        className="mx-auto w-auto h-auto object-contain max-w-full"
-        loading="eager"
-      />
-
-      <p className="text-center text-primary-text lg:text-3xl md:text-2xl sm:text-xl mt-6 mb-12">
+      <p className="text-center text-primary-text lg:text-[34px] md:text-[28px] sm:text-[24px] mt-6 mb-12">
         Choose Account Type
       </p>
-
       <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl w-full">
         
         <Image
